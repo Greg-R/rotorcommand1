@@ -1,0 +1,3 @@
+[submodule "docs/spi_avalon_fpga"]
+	path = docs/spi_avalon_fpga
+	url = /mnt/ds216/gitrepos/latex_docs/spi_avalon_fpga
