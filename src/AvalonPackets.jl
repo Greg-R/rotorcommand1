@@ -2,7 +2,7 @@ module AvalonPackets
 
 #  This module has functions to create and manipulate Avalon Packets.
 
-export do_transaction, tx_packet
+export do_transaction, tx_packet, get_readback_data
 export SEQUENTIAL_WRITE, analyze_response
 
 using Printf
@@ -30,7 +30,7 @@ RESPONSE_LENGTH = 4
 #  This function simply attaches an Avalon packet header to the data.
 function do_transaction(type, size, address, data)
 
-    if ((type == SEQUENTIAL_WRITE) | (type == NON_SEQUENTIAL_WRITE))
+    if ((type == SEQUENTIAL_WRITE) | (type == NON_SEQUENTIAL_WRITE) | (type == SEQUENTIAL_READ) | (type == NON_SEQUENTIAL_READ))
       transaction = zeros(UInt8, (size + HEADER_LENGTH))
 #transaction = Array{UInt8,1}(UndefInitializer(), size + HEADER_LENGTH)
     end
@@ -46,18 +46,21 @@ function do_transaction(type, size, address, data)
     transaction[8] = (address & 0xff)
 
     #  Load the data into the transaction:
+    if((type == SEQUENTIAL_WRITE) | (type == NON_SEQUENTIAL_WRITE))
     for i in 9:(size + HEADER_LENGTH)
         transaction[i] = data[i - HEADER_LENGTH]
     end
+end
+
 
     length = size + 8
     return transaction, length
 
 end # do_transaction
 
-#  Complete the Transmit packet.  Pass in an the result from do_transaction.
+#  Complete the Transmit packet.  Pass in the result from do_transaction.
 #  The address is already included in the data's header.
-#  This function will insert the special characeters.
+#  This function will insert the special characters.
 function tx_packet(data, data_length)
 #  Response data is a fixed value of 2 bytes to form a 16 bit unsigned integer,
 #  which is the number of bytes transmitted or received.  This is the data
@@ -241,6 +244,18 @@ while i < 12
 # Printf.@printf("Number of bytes written = %d\n", bytes_written)
 
  return bytes_written
+end
+
+function get_readback_data(avalon_packet)
+    read_data = 0x00
+    i = 1
+    for i in 1:12
+        if avalon_packet[i] == EOP
+            read_data = avalon_packet[i+1]
+            break
+        end
+    end
+    return read_data
 end
 
 end # module
