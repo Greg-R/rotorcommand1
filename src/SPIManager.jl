@@ -57,17 +57,17 @@ channelConf = ChannelConfig_t(30000000, 1, configOptions, Pin,0)
 function SPI_InitChannel()
 handle = Ref{UInt32}()  #  This is written to by SPI_OpenChannel function.
 opencall =  ccall((:SPI_OpenChannel, "/usr/local/lib/libMPSSE.so"), UInt32, (Cuint, Ref{UInt32}), 0, handle)
-println("opencall = $opencall")
-Printf.@printf("handle = %x\n", handle[])
+#println("opencall = $opencall")
+#Printf.@printf("handle = %x\n", handle[])
 initcall = ccall((:SPI_InitChannel, "/usr/local/lib/libMPSSE.so"), UInt32, (UInt32, Ref{ChannelConfig_t}), handle[], channelConf)
-println("initcall = $initcall")
+#println("initcall = $initcall")
 return handle[]
 end
 
 #  Close the SPI Channel and report.
 function SPI_CloseChannel(handle)
 spi_close = ccall((:SPI_CloseChannel, "/usr/local/lib/libMPSSE.so"), UInt32, (UInt32,), handle)
-println("spiclose = $spi_close")
+#println("spiclose = $spi_close")
 end
 
 #  Need a "write" function which is similar to that in JTAGManager.
@@ -209,24 +209,24 @@ function writeLEDs(
     avalonbuffer, buffersize = AvalonPackets.byte_to_core(send_data, send_data_length)
 
         for i in 1:buffersize
-        Printf.@printf("avalonbuffer[%d] = %x\n", i, avalonbuffer[i])
+        #Printf.@printf("avalonbuffer[%d] = %x\n", i, avalonbuffer[i])
         end
 
         spiwrite = spi_readwrite(thisHandle, readbuffer, avalonbuffer, buffersize)
-        println("spiwrite = $spiwrite")
+        #println("spiwrite = $spiwrite")
         response_packet = AvalonPackets.clean_response(readbuffer[(buffersize-12):buffersize])
         response_data = AvalonPackets.get_response_data(response_packet)
-        println("Response data = $response_data")
+        #println("Response data = $response_data")
 
         for i in (buffersize - 12):buffersize
-        Printf.@printf("readbuffer[%d] = %x\n", i, readbuffer[i])
+        #Printf.@printf("readbuffer[%d] = %x\n", i, readbuffer[i])
         end
 
         for i in 1:length(response_packet)
-        Printf.@printf("response_packet[%d] = %x\n", i, response_packet[i])
+        #Printf.@printf("response_packet[%d] = %x\n", i, response_packet[i])
         end
 
-        println("buffersize = $buffersize")
+        #println("buffersize = $buffersize")
 SPI_CloseChannel(thisHandle)
 end
 
