@@ -34,7 +34,7 @@ function rotator()
     println(parsed_args["arg1"])
     buffer=zeros(UInt8, 1)
     buffer[1] = parsed_args["arg1"]
-    spiavalonfpga.SPIManager.writeLEDs(0x0400_0000, buffer)
+    rotorcommand1.SPIManager.writeLEDs(0x0400_0000, buffer)
 #    @showprogress for i in 1:5
 #    read_back = spiavalonfpga.SPIManager.readbyte(0x0400_0000)
 #    println("Read back of motor position = $read_back")
