@@ -27,11 +27,11 @@ end
 
 function rotator()
     parsed_args = parse_commandline()
-    println("Parsed args:")
-    for (arg,val) in parsed_args
-        println("  $arg  =>  $val")
-    end
-    println(parsed_args["arg1"])
+    #println("Parsed args:")
+    #for (arg,val) in parsed_args
+    #    println("  $arg  =>  $val")
+    #end
+    #println(parsed_args["arg1"])
     buffer=zeros(UInt8, 1)
     buffer[1] = parsed_args["arg1"]
     rotorcommand1.SPIManager.writeLEDs(0x0400_0000, buffer)

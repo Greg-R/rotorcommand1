@@ -31,7 +31,7 @@ function SPI_GetNumChannels()
     ccall((:SPI_GetNumChannels,"libMPSSE"),UInt32, (Ref{Cuint},), channel)
 #  The full path is required if the command ldconfig has not been used to add the path.
 #ccall((:SPI_GetNumChannels,"/usr/local/lib/libMPSSE.so"),UInt32, (Ref{Cuint},), channel)
-println("Number channels = $channel")
+#println("Number channels = $channel")
 end
 
 #  FTDI MPSSE struct which is used to configure the SPI channel.
