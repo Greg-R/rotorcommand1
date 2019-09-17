@@ -1,7 +1,7 @@
 #  ArgParse
 using ArgParse
-using spiavalonfpga
-using ProgressMeter
+using rotorcommand1
+#using ProgressMeter
 
 function parse_commandline()
 s = ArgParseSettings()
@@ -39,10 +39,10 @@ function rotator()
 #    read_back = spiavalonfpga.SPIManager.readbyte(0x0400_0000)
 #    println("Read back of motor position = $read_back")
 #    end
-    while ((position = spiavalonfpga.SPIManager.readbyte(0x0400_0000)) != buffer[1])
+    while ((position = rotorcommand1.SPIManager.readbyte(0x0400_0000)) != buffer[1])
         println("Rotation in Progress")
     end
-    position = spiavalonfpga.SPIManager.readbyte(0x0400_0000)
+    position = rotorcommand1.SPIManager.readbyte(0x0400_0000)
     println("Confirming position is $position.")
 end
 
