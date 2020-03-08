@@ -1,6 +1,4 @@
 
-
-
 module rotorcommand1
 
 #  Derived from spiavalongfpga September 16, 2019.
@@ -9,7 +7,9 @@ module rotorcommand1
 
 #include("command_line.jl")
 include("SPIManager.jl")
+using .SPIManager
 
+export writeLEDs
 
 # Address of the max_frame_count register.
 # System counts to this value before moving to the next frame.
